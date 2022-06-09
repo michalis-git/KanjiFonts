@@ -22,9 +22,7 @@ int main(int argc, char *argv[])
           QCoreApplication::exit(-1);
       }, Qt::QueuedConnection);
   FontManager* fontManager = new FontManager();
-//  qmlRegisterType<FontManager>("com.myself.qml", 1, 0, "FontManager");
-//  qmlRegisterUncreatableType<FontManager>("com.myself.qml", 1, 0, "FontManager", "Can't create");
-//  engine.rootContext()->setContextProperty("defaultAppFont", defaultAppFont);
+
   engine.rootContext()->setContextProperty("fontManager", fontManager);
 
   engine.load(url);

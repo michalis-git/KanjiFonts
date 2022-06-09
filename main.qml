@@ -18,14 +18,23 @@ ApplicationWindow {
     anchors.fill: parent
 
     ColumnLayout {
-      anchors.fill: parent
+
+      anchors.centerIn: parent
 
       Item { Layout.fillHeight: true }
 
       RowLayout {
-        Item { Layout.fillWidth: true }
         Label {
           text: "Sample text: 直直直"
+        }
+        Item { Layout.fillWidth: true }
+      }
+
+      RowLayout {
+        Label { text: "Font family: " }
+        Label {
+          id: fontFamilyLabel
+          text: fontManager.fontFamilyName
         }
         Item { Layout.fillWidth: true }
       }

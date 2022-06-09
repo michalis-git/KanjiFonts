@@ -6,7 +6,13 @@
 #include <QDebug>
 
 
-Q_INVOKABLE void FontManager::setAppFontForWritingSystem(const QString &writingSystem) {
+Q_INVOKABLE FontManager::FontManager(QObject *parent)
+    : QObject(parent){
+  QFont systemFont = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
+  m_fontFamilyName =  systemFont.family();
+}
+
+void FontManager::setAppFontForWritingSystem(const QString &writingSystem) {
   if (writingSystem == "Japanese")
     setAppFontForWritingSystem0(QFontDatabase::Japanese);
   else if (writingSystem == "Default")
@@ -16,22 +22,24 @@ Q_INVOKABLE void FontManager::setAppFontForWritingSystem(const QString &writingS
 }
 
 void FontManager::setAppFontForWritingSystem0(QFontDatabase::WritingSystem writingSystem) {
-  QFont systemFont = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-  qDebug() << systemFont.family() << "**********************";
   QFontDatabase fontDB;
   auto families = fontDB.families(writingSystem);
-//  if (!families.contains(systemFont.family())) {
+
     qDebug() << families;
     auto family = families[1];
     qDebug() << family;
     QFont font  = QFont(family);
 
     QGuiApplication::setFont(font);
+
+    m_fontFamilyName = font.family();
     emit applicationFontChanged();
-    //    qApp->setFont(font);
-//  }
 }
 
 QFont FontManager::applicationFont() {
   return QGuiApplication::font();
+}
+
+QString FontManager::fontFamilyName() {
+  return m_fontFamilyName;
 }
